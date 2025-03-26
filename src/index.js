@@ -1,6 +1,16 @@
 const { env, port } = require('./core/config');
 const logger = require('./core/logger')('app');
 const server = require('./core/server');
+const express = require('express');
+const routes = require('./api/routes');
+
+const index = express();
+
+// Pasang middleware
+index.use(express.json());
+
+// Pasang routes
+routes(index); // Perhatikan ini diubah
 
 const app = server.listen(port, (err) => {
   if (err) {

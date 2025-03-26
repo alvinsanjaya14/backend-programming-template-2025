@@ -1,33 +1,41 @@
-const booksService = require('./books-service');
-const { errorResponder, errorTypes } = require('../../../core/errors');
-
-async function getBooks(request, response, next) {
+const getAllBooks = async (req, res) => {
   try {
-    const books = await booksService.getBooks();
+    // Ambil query parameters dengan default values
+    const offset = parseInt(req.query.offset) || 0;
+    const limit = parseInt(req.query.limit) || 10;
 
-    return response.status(200).json(books);
+    // Dapatkan total jumlah buku
+    const totalBooks = await Book.countDocuments();
+
+    // Ambil buku dengan pagination
+    const books = await Book.find()
+      .skip(offset)
+      .limit(limit);
+
+    // Hitung halaman selanjutnya
+    const nextOffset = offset + limit < totalBooks 
+      ? offset + limit 
+      : null;
+
+    // Hitung halaman sebelumnya
+    const prevOffset = offset > 0 
+      ? Math.max(0, offset - limit)
+      : null;
+
+    res.json({
+      count: totalBooks,
+      next: nextOffset !== null 
+        ? `/api/books?offset=${nextOffset}&limit=${limit}` 
+        : null,
+      previous: prevOffset !== null 
+        ? `/api/books?offset=${prevOffset}&limit=${limit}` 
+        : null,
+      results: books
+    });
   } catch (error) {
-    return next(error);
+    res.status(500).json({ 
+      message: 'Error fetching books', 
+      error: error.message 
+    });
   }
-}
-
-async function createBook(request, response, next) {
-  try {
-    const { title } = request.body;
-
-    if (!title) {
-      throw errorResponder(errorTypes.VALIDATION_ERROR, 'Title is required');
-    }
-
-    const book = await booksService.create(title);
-
-    return response.status(200).json(book);
-  } catch (error) {
-    return next(error);
-  }
-}
-
-module.exports = {
-  getBooks,
-  createBook,
 };

@@ -4,6 +4,7 @@ const booksController = require('./books-controller');
 
 const route = express.Router();
 
+
 module.exports = (app) => {
   app.use('/books', route);
 
@@ -13,9 +14,15 @@ module.exports = (app) => {
   // Create a new book
   route.post('/', booksController.createBook);
 
+  router.get('/', getAllBooks);
+
   // TODO: Get a book by id
 
   // TODO: Update a book by id
 
   // TODO: Delete a book by id
+  router.get('/', booksController.getAllBooks);
+ router.post('/', booksController.createBook);
+
+ module.exports = router;
 };

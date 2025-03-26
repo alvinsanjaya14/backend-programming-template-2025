@@ -1,6 +1,6 @@
 module.exports = (db) =>
   db.model(
-    'Users',
+    'src/api/components/authentication/users.js',
     db.Schema({
       email: String,
       password: String,

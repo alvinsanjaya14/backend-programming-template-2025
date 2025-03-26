@@ -1,14 +1,7 @@
-const booksRepository = require('./books-repository');
-
-async function getBooks() {
-  return booksRepository.getBooks();
+async function getBooks(offset = 0, limit = 10) {
+  return booksRepository.getBooks(offset, limit);
 }
 
-async function create(title) {
-  return booksRepository.create(title);
+async function countBooks() {
+  return booksRepository.countBooks();
 }
-
-module.exports = {
-  getBooks,
-  create,
-};
