@@ -1,7 +1,7 @@
 const express = require('express');
 const books = require('./components/books/books-route');
 const auth = require('./components/authentication/authentication-route');
-const user = require('./components/users/users-route');
+const userRoute = require('./components/users/users-route');
 
 
 module.exports = () => {

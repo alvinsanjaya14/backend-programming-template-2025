@@ -13,9 +13,6 @@ module.exports = (app) => {
   // Create a new user
   route.post('/', usersController.createUser);
 
-  // Get user detail
-  route.get('/:id', usersController.getUser);
-
   // Update user
   route.put('/:id', usersController.updateUser);
 
@@ -24,18 +21,10 @@ module.exports = (app) => {
 
   // Delete user
   route.delete('/:id', usersController.deleteUser);
-
-  router.get('/', controller.getUsers); 
-
-  router.get('/', getAllUsers);
-
+  
   router.get('/', usersController.getAllUsers);
-  router.post('/', usersController.createUser);
-  router.get('/:id', usersController.getUser);
-  router.put('/:id', usersController.updateUser);
   router.put('/:id/change-password', usersController.changePassword);
   router.delete('/:id', usersController.deleteUser);
 
-
- module.exports = router; 
+  module.exports = router;
 };
